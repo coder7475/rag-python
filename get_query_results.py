@@ -32,10 +32,10 @@ def get_query_results(query):
     array_of_results = []
     for doc in results:
         array_of_results.append(doc)
+
     return array_of_results
 
 
 # Test the function with a sample query
 
 pprint.pprint(get_query_results("AI technology"))
-
