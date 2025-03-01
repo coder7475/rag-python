@@ -1,0 +1,13 @@
+pymongo
+
+sentence_transformers
+
+einops
+
+langchain
+
+langchain_community
+
+pypdf
+
+huggingface_hub
