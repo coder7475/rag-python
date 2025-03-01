@@ -12,4 +12,8 @@ python3 ingest_data.py
 python3 create_vector_index.py
 ```
 
-3. Retre
+3. Generate Response to a query(prompt):
+
+```python3
+python3 generate_response.py
+```
