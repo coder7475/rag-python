@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from app.config import settings
 from ingest_data import ingest_data
+from create_vector_index import create_vector_index
 
+# Initialize FastAPI application
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
@@ -9,6 +11,7 @@ app = FastAPI(
 )
 
 
+# Root route
 @app.get("/")
 async def root():
     return {"message": f"Wecome to {settings.app_name}!"}
@@ -42,8 +45,17 @@ def test_env_vars():
 
 
 @app.get("/ingest-data")
-def chunk_pdf():
+async def chunk_pdf():
     "Take the pdf and chunk it into 400 character pieces"
+    result = await ingest_data()
+    print(result)
     return {
         "message": "Data ingested successfully!",
     }
+
+
+@app.get("/create-index")
+def create_index():
+    "Create a vector search index in MongoDB Atlas"
+    create_vector_index()
+    return {"message": "Index created successfully!"}
