@@ -14,7 +14,7 @@ def call_llm():
         Description: You need to manage time, priotirize tasks, take notes
         Include emojis: yes
 
-    Just generate the JSON object without explanations:
+    Generate the JSON object without any escape code, make sure its valid and usable in code:
     [/INST]"""
 
     context_docs = get_query_results(query)
@@ -34,52 +34,7 @@ def call_llm():
 
     # Prompt the LLM (this code varies depending on the model you use)
     output = llm.chat_completion(
-        messages=[{"role": "user", "content": prompt}, "role": "system", "content": """Always generate a clean and valid json object carefully. 
-        Example: 
-        `
-        [
-  {
-    "title": "Exploring Nature",
-    "hashtags": ["#nature", "#outdoors", "#adventure"]
-  },
-  {
-    "title": "Tech Innovations",
-    "hashtags": ["#technology", "#innovation", "#future"]
-  },
-  {
-    "title": "Healthy Living",
-    "hashtags": ["#health", "#wellness", "#fitness"]
-  },
-  {
-    "title": "Foodie Adventures",
-    "hashtags": ["#food", "#delicious", "#tasting"]
-  },
-  {
-    "title": "Travel Diaries",
-    "hashtags": ["#travel", "#exploration", "#wanderlust"]
-  },
-  {
-    "title": "Creative Arts",
-    "hashtags": ["#art", "#creativity", "#design"]
-  },
-  {
-    "title": "Mindfulness Journey",
-    "hashtags": ["#mindfulness", "#peace", "#meditation"]
-  },
-  {
-    "title": "Street Fashion",
-    "hashtags": ["#fashion", "#style", "#streetwear"]
-  },
-  {
-    "title": "Music Vibes",
-    "hashtags": ["#music", "#vibes", "#groove"]
-  },
-  {
-    "title": "Fitness Motivation",
-    "hashtags": ["#fitness", "#motivation", "#workout"]
-  }
-]
-        ` Make sure to not give any bad unicode."""], max_tokens=300
+        messages=[{"role": "user", "content": prompt}], max_tokens=300
     )
     print(output.choices[0].message.content)
 
