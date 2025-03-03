@@ -33,4 +33,4 @@ def call_llm():
         messages=[{"role": "user", "content": prompt}], max_tokens=150
     )
 
-    print(output.choices[0].message.content)
+    return output.choices[0].message.content
