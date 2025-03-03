@@ -1,7 +1,7 @@
 # Define a function to run vector search queries
 from pymongo import MongoClient
 from get_embeddings import get_embedding
-
+from app.config import settings
 import pprint
 
 
@@ -22,10 +22,8 @@ def get_query_results(query):
         {"$project": {"_id": 0, "text": 1}},
     ]
     # Connect to your Atlas cluster
-    client = MongoClient(
-        "mongodb+srv://rag:V0oyZYxieV05mPKL@cluster0.xjslrno.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-    )
-    collection = client["rag_db"]["test"]
+    client = MongoClient(settings.atlas_connection_string)
+    collection = client["rag-atlas"]["starter"]
 
     results = collection.aggregate(pipeline)
 
@@ -38,4 +36,4 @@ def get_query_results(query):
 
 # Test the function with a sample query
 
-pprint.pprint(get_query_results("AI technology"))
+# pprint.pprint(get_query_results("AI technology"))

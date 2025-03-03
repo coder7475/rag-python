@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.config import settings
 from ingest_data import ingest_data
 from create_vector_index import create_vector_index
+from generate_response import call_llm
 
 # Initialize FastAPI application
 app = FastAPI(
@@ -59,3 +60,9 @@ def create_index():
     "Create a vector search index in MongoDB Atlas"
     create_vector_index()
     return {"message": "Index created successfully!"}
+
+
+@app.get("/prompt")
+def prompt():
+    call_llm()
+    return {"message": "Prompt generated successfully!"}
