@@ -7,19 +7,14 @@ from app.config import settings
 # generate response using LLM using the retrieved documents as context
 def call_llm():
     # Specify search query, retrieve relevant documents, and convert to string
-    query = "Generate 10 best youtube video titles in json format?"
+    query = "Generate 10 best youtube video titles based on topic 'how to learn' in authoritative tone? Outpur should be an array of objects where each object has a title and 3 hashtags. Make sure to include emojis"
     context_docs = get_query_results(query)
     context_string = " ".join([doc["text"] for doc in context_docs])
 
     # Construct prompt for the LLM using the retrieved documents as the context
     prompt = f"""Use the following pieces of context to answer the question at the end.
-        topic: how to learn
-        tone: authoritative
-        include emojis: yes
-        generate 3 hashtags: yes
         {context_string}
         Question: {query}
-        Answer:
     """
 
     # Authenticate to Hugging Face and access the model
@@ -30,7 +25,12 @@ def call_llm():
 
     # Prompt the LLM (this code varies depending on the model you use)
     output = llm.chat_completion(
-        messages=[{"role": "user", "content": prompt}], max_tokens=150
+        messages=[{"role": "user", "content": prompt}], max_tokens=300
     )
+    print(output.choices[0].message.content)
 
     return output.choices[0].message.content
+
+
+if __name__ == "__main__":
+    call_llm()

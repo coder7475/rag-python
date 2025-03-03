@@ -64,5 +64,5 @@ def create_index():
 
 @app.get("/prompt")
 def prompt():
-    call_llm()
-    return {"message": "Prompt generated successfully!"}
+    output = call_llm()
+    return {"message": "Prompt generated successfully!", output: output}
