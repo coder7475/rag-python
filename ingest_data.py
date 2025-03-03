@@ -5,7 +5,7 @@ from pymongo import MongoClient
 from app.config import settings
 
 
-def ingest_data():
+async def ingest_data():
     # Load the PDF
     loader = PyPDFLoader(
         "https://pub-4800303093b24737baaa55f4e436546d.r2.dev/pdfs/1739409677305_103-YouTube-Title-Ab-Tests-1 (1).pdf"
