@@ -56,8 +56,6 @@ def call_llm(body):
     [/INST]
     """
 
-    
-
     context_docs = get_query_results(query)
     context_string = " ".join([doc["text"] for doc in context_docs])
 
@@ -78,8 +76,6 @@ def call_llm(body):
         messages=[{"role": "user", "content": prompt}], max_tokens=300
     )
 
-
-    print(output.choices[0].message.content)
     # Try to extract the JSON array from the output string
     output_text = output.choices[0].message.content
 
