@@ -1,63 +1,21 @@
-# Start
+# 🎥 YouTube Video Title Generator
 
-environment
-
-```
-python3 -m venv venv
-```
-
-activate
-
-```
-source venv/
-
-Install:
-```
-
-pip install -r requirements.txt
-
-````
-
-# Pipeline
-
-1. Ingest Data:
-
-```python
-python3 ingest_data.py
-````
-
-2. create vector index:
-
-```py
-python3 create_vector_index.py
-```
-
-3. Generate Response to a query(prompt):
-
-```python3
-python3 generate_response.py
-```
-
-Here’s a **README.md** draft tailored for your project based on the structure of your app and what you’ve shared 👇
-
-```markdown
-# 📚 FastAPI Vector Search App
-
-A FastAPI application that ingests PDF documents, chunks them into embeddings, stores them in MongoDB Atlas, and provides endpoints to query and generate responses using an LLM.
+Generate engaging, clickworthy YouTube video titles (with optional emojis and hashtags) powered by **FastAPI**, **MongoDB Atlas Vector Search**, and **LLMs**.
 
 ---
 
 ## 🚀 Features
 
-- FastAPI-based backend with auto-generated Swagger docs.
-- Ingests PDF files and chunks them into ~400-character segments.
-- Creates a **vector search index** in MongoDB Atlas.
-- Generates responses from an LLM (e.g., OpenAI/Hugging Face).
-- Configurable via environment variables.
+- Generate optimized YouTube video titles from descriptions.
+- Optionally add emojis and relevant hashtags.
+- Ingest PDF data and create embeddings for vector search.
+- Uses MongoDB Atlas **vector search index** with cosine similarity.
+- FastAPI backend with auto-generated API docs.
 
 ---
 
 ## 📂 Project Structure
+
 ```
 
 .
@@ -66,32 +24,32 @@ A FastAPI application that ingests PDF documents, chunks them into embeddings, s
 │ ├── **init**.py
 │ └── main.py # FastAPI entrypoint
 ├── create_vector_index.py # MongoDB Atlas vector index creation
-├── generate_response.py # Call to LLM for generating responses
-├── get_embeddings.py # Generate embeddings from text
-├── get_query_results.py # Query MongoDB Atlas vector store
-├── ingest_data.py # Ingest & chunk PDF documents
-├── README.md # Project documentation
+├── generate_response.py # LLM response generation
+├── get_embeddings.py # Embedding generation helper
+├── get_query_results.py # Query MongoDB Atlas with embeddings
+├── ingest_data.py # Ingest & chunk PDF data
 ├── requirements.txt # Python dependencies
-└── venv # Virtual environment (not committed)
+└── README.md # Project documentation
 
-````
+```
 
 ---
 
 ## ⚙️ Installation
 
 ### 1. Clone the repository
-```bash
-git clone https://github.com/your-username/fastapi-vector-app.git
-cd fastapi-vector-app
-````
-
-### 2. Create and activate virtual environment
 
 ```bash
-python -m venv venv
-source venv/bin/activate   # On macOS/Linux
-venv\Scripts\activate      # On Windows
+git clone https://github.com/your-username/youtube-title-generator.git
+cd youtube-title-generator
+```
+
+### 2. Create and activate a virtual environment
+
+```bash
+python3 -m venv venv
+source venv/bin/activate   # macOS/Linux
+venv\Scripts\activate      # Windows
 ```
 
 ### 3. Install dependencies
@@ -104,10 +62,10 @@ pip install -r requirements.txt
 
 ## 🔑 Configuration
 
-Create a `.env` file in the project root with your settings:
+Create a `.env` file in the root directory:
 
 ```env
-APP_NAME=FastAPI Vector Search
+APP_NAME=YouTube Title Generator
 APP_VERSION=0.1.0
 DEBUG=True
 HOST=127.0.0.1
@@ -122,37 +80,47 @@ OPENAI_API_KEY=your-openai-key
 
 ---
 
-## ▶️ Running the App
+## ▶️ Usage
 
-### Option 1: With Uvicorn
+### 1. Ingest Data
+
+```bash
+python3 ingest_data.py
+```
+
+### 2. Create Vector Index
+
+```bash
+python3 create_vector_index.py
+```
+
+### 3. Generate Response from Query
+
+```bash
+python3 generate_response.py
+```
+
+Or run the FastAPI app:
 
 ```bash
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-### Option 2: Directly with Python
-
-```bash
-python app/main.py
 ```
 
 ---
 
 ## 📡 API Endpoints
 
-| Method | Endpoint        | Description                              |
-| ------ | --------------- | ---------------------------------------- |
-| GET    | `/`             | Root health check                        |
-| GET    | `/info`         | Show app info from environment variables |
-| GET    | `/env-test`     | Verify environment variables             |
-| GET    | `/ingest-data`  | Ingest and chunk PDF into embeddings     |
-| GET    | `/create-index` | Create MongoDB Atlas vector index        |
-| POST   | `/prompt`       | Generate a response using the LLM        |
+| Method | Endpoint        | Description                        |
+| ------ | --------------- | ---------------------------------- |
+| GET    | `/`             | Root health check                  |
+| GET    | `/info`         | Show app info from env             |
+| GET    | `/ingest-data`  | Ingest & chunk PDF into embeddings |
+| GET    | `/create-index` | Create MongoDB Atlas vector index  |
+| POST   | `/prompt`       | Generate YouTube title & hashtags  |
 
-`/prompt`
-Example Request body:
+### Example `/prompt` Request
 
-```
+```json
 {
   "video_title": "How to Learn",
   "description": "You need to manage time, prioritize tasks, and take notes",
@@ -162,35 +130,23 @@ Example Request body:
 }
 ```
 
-Response Body:
+### Example Response
 
-```
+```json
 {
   "message": "Prompt generated successfully!",
   "output": [
     {
       "title": "📅 Master Time Management: Prioritize Tasks & Take Notes",
-      "hashtags": [
-        "#TimeManagement",
-        "#Productivity",
-        "#YouTubeTips"
-      ]
+      "hashtags": ["#TimeManagement", "#Productivity", "#YouTubeTips"]
     },
     {
       "title": "📝 Learn the Secrets to Effective Note-Taking",
-      "hashtags": [
-        "#Notetaking",
-        "#StudyTips",
-        "#YouTubeTutorial"
-      ]
+      "hashtags": ["#Notetaking", "#StudyTips", "#YouTubeTutorial"]
     },
     {
       "title": "🎯 Boost Your Productivity: Prioritize & Organize Your Tasks",
-      "hashtags": [
-        "#ProductivityHacks",
-        "#TaskManagement",
-        "#YouTubeLifeHacks"
-      ]
+      "hashtags": ["#ProductivityHacks", "#TaskManagement", "#YouTubeLifeHacks"]
     }
   ]
 }
@@ -207,8 +163,8 @@ Docs are auto-generated:
 
 - Runs on **FastAPI + Uvicorn**.
 - Requires **MongoDB Atlas** with vector index support.
-- Supports **OpenAI/HuggingFace LLMs** for generating responses.
-- Extendable for custom embeddings & retrieval-augmented generation.
+- Uses **OpenAI/HuggingFace LLMs** for text generation.
+- Extendable for custom embeddings and retrieval-augmented generation (RAG).
 
 ---
 
@@ -220,4 +176,4 @@ MIT License. Feel free to use and modify.
 
 ## 👨‍💻 Author
 
-Developed by **\[Robiul Hossain]**
+Developed by [**Robiul Hossain**](https://github.com/coder7475)
