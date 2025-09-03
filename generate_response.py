@@ -1,4 +1,7 @@
 import os
+import json
+import re
+
 from huggingface_hub import InferenceClient
 from get_query_results import get_query_results
 from app.config import settings
@@ -9,17 +12,51 @@ def call_llm(body):
     # Build the query dynamically using the input body
     video_title = body.get("video_title", "")
     description = body.get("description", "")
-    include_emojis = body.get("include_emojis")
-    # Query to generate video titles in json format
-    query = f"""[INST] You are a YouTube title expert with 10 years of experience in crafting high-retention, high-CTR (click-through rate) titles. 
-    Your task is to generate 10 compelling youtube video titles with 3 hashtags each and convert it into a valid JSON object based on the given information:
+    include_emojis = body.get("include_emojis", "")
+    video_type = body.get("video_type", "")
+    hashtags = body.get("generate_hashtags", "")
 
-        video title: {video_title}
-        Description: {description}
-        Include emojis: {include_emojis}
+    # Improved prompt for generating YouTube video titles in JSON format
+    query = f"""
+    [INST]
+    You are an expert YouTube title creator with over 10 years of experience in crafting high-retention, high-CTR (click-through rate) titles.
+    Your task is to generate 3 unique, compelling YouTube video titles, each accompanied by 3 relevant hashtags, based on the information provided below.
 
-    Generate the JSON object without any escape code, make sure its valid and usable in code:
-    [/INST]"""
+    Please ensure:
+    - Titles are creative, engaging, and optimized for YouTube search and click-through.
+    - Hashtags are relevant, trending, and help increase discoverability.
+    - If 'Include Emojis' is 'yes', add appropriate emojis to the titles.
+    - If 'Generate hashtags' is 'no', leave the hashtags array empty.
+    - The output is a valid, minified JSON array (no comments, no trailing commas, no escape codes), directly usable in code.
+
+    Input Information:
+    - Possible Title: {video_title}
+    - Video Type: {video_type}
+    - Description: {description}
+    - Include Emojis: {include_emojis}
+    - Generate Hashtags: {hashtags}
+
+    Example Output:
+    [
+      {{
+        "title": "Your First Compelling Title",
+        "hashtags": ["#example1", "#example2", "#example3"]
+      }},
+      {{
+        "title": "Another Engaging Title",
+        "hashtags": ["#tag1", "#tag2", "#tag3"]
+      }},
+      {{
+        "title": "Third Attention-Grabbing Title",
+        "hashtags": ["#tagA", "#tagB", "#tagC"]
+      }}
+    ]
+
+    Only return the JSON array as shown above.
+    [/INST]
+    """
+
+    
 
     context_docs = get_query_results(query)
     context_string = " ".join([doc["text"] for doc in context_docs])
@@ -40,9 +77,26 @@ def call_llm(body):
     output = llm.chat_completion(
         messages=[{"role": "user", "content": prompt}], max_tokens=300
     )
-    print(output.choices[0].message.content)
 
-    return output.choices[0].message.content
+
+    print(output.choices[0].message.content)
+    # Try to extract the JSON array from the output string
+    output_text = output.choices[0].message.content
+
+    # Use regex to find the first JSON array in the output
+    match = re.search(r"\[\s*{.*?}\s*\]", output_text, re.DOTALL)
+    if match:
+        json_str = match.group(0)
+        try:
+            extracted_json = json.loads(json_str)
+        except Exception:
+            # If parsing fails, fallback to returning the string
+            extracted_json = json_str
+    else:
+        # If no JSON array found, fallback to returning the whole output
+        extracted_json = output_text
+
+    return extracted_json
 
 
 if __name__ == "__main__":

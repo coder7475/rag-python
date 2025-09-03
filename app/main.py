@@ -67,7 +67,6 @@ def create_index():
 
 
 
-
 @app.post("/prompt")
 async def prompt(
     request: Request,
@@ -76,7 +75,9 @@ async def prompt(
         example={
             "video_title": "How to Learn",
             "description": "You need to manage time, prioritize tasks, and take notes",
-            "include_emojis": "yes"
+            "include_emojis": "yes",
+            "video_type": ".mp4",
+            "generate_hashtags": "yes"
         }
     )
 ):

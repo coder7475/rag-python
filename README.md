@@ -147,7 +147,54 @@ python app/main.py
 | GET    | `/env-test`     | Verify environment variables             |
 | GET    | `/ingest-data`  | Ingest and chunk PDF into embeddings     |
 | GET    | `/create-index` | Create MongoDB Atlas vector index        |
-| GET    | `/prompt`       | Generate a response using the LLM        |
+| POST   | `/prompt`       | Generate a response using the LLM        |
+
+`/prompt`
+Example Request body:
+
+```
+{
+  "video_title": "How to Learn",
+  "description": "You need to manage time, prioritize tasks, and take notes",
+  "include_emojis": "yes",
+  "video_type": ".mp4",
+  "generate_hashtags": "yes"
+}
+```
+
+Response Body:
+
+```
+{
+  "message": "Prompt generated successfully!",
+  "output": [
+    {
+      "title": "📅 Master Time Management: Prioritize Tasks & Take Notes",
+      "hashtags": [
+        "#TimeManagement",
+        "#Productivity",
+        "#YouTubeTips"
+      ]
+    },
+    {
+      "title": "📝 Learn the Secrets to Effective Note-Taking",
+      "hashtags": [
+        "#Notetaking",
+        "#StudyTips",
+        "#YouTubeTutorial"
+      ]
+    },
+    {
+      "title": "🎯 Boost Your Productivity: Prioritize & Organize Your Tasks",
+      "hashtags": [
+        "#ProductivityHacks",
+        "#TaskManagement",
+        "#YouTubeLifeHacks"
+      ]
+    }
+  ]
+}
+```
 
 Docs are auto-generated:
 

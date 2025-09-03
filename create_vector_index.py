@@ -4,7 +4,7 @@ import time
 from app.config import settings
 
 
-# Create a vecotor serach index in mongodb atlas
+# Create a vector search index in mongodb atlas
 def create_vector_index():
     # Create your index model, then create the search index
     index_name = "vector_index"
