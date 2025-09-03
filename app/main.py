@@ -1,8 +1,12 @@
 from fastapi import FastAPI
+
 from app.config import settings
 from ingest_data import ingest_data
 from create_vector_index import create_vector_index
 from generate_response import call_llm
+
+from fastapi import Request
+from fastapi import Body
 
 # Initialize FastAPI application
 app = FastAPI(
@@ -62,7 +66,27 @@ def create_index():
     return {"message": "Index created successfully!"}
 
 
-@app.get("/prompt")
-def prompt():
-    output = call_llm()
-    return {"message": "Prompt generated successfully!", output: output}
+
+
+@app.post("/prompt")
+async def prompt(
+    request: Request,
+    body: dict = Body(
+        ...,
+        example={
+            "video_title": "How to Learn",
+            "description": "You need to manage time, prioritize tasks, and take notes",
+            "include_emojis": "yes"
+        }
+    )
+):
+    """
+    Accepts a JSON payload and generates a prompt using the LLM.
+    Example JSON body:
+    {
+      "video_title": "How to Learn",
+      "description": "You need to manage time , prioritize tasks, and take notes"
+    }
+    """
+    output = call_llm(body)
+    return {"message": "Prompt generated successfully!", "output": output}

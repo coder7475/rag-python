@@ -5,14 +5,18 @@ from app.config import settings
 
 
 # generate response using LLM using the retrieved documents as context
-def call_llm():
-    # Specify search query, retrieve relevant documents, and convert to string
-    query = """[INST] You are a YouTube title expert with 10 years of experience in crafting high-retention, high-CTR (click-through rate) titles. 
+def call_llm(body):
+    # Build the query dynamically using the input body
+    video_title = body.get("video_title", "")
+    description = body.get("description", "")
+    include_emojis = body.get("include_emojis")
+    # Query to generate video titles in json format
+    query = f"""[INST] You are a YouTube title expert with 10 years of experience in crafting high-retention, high-CTR (click-through rate) titles. 
     Your task is to generate 10 compelling youtube video titles with 3 hashtags each and convert it into a valid JSON object based on the given information:
 
-        possible video title: How to Learn
-        Description: You need to manage time, priotirize tasks, take notes
-        Include emojis: yes
+        video title: {video_title}
+        Description: {description}
+        Include emojis: {include_emojis}
 
     Generate the JSON object without any escape code, make sure its valid and usable in code:
     [/INST]"""

@@ -8,7 +8,7 @@ from app.config import settings
 async def ingest_data():
     # Load the PDF
     loader = PyPDFLoader(
-        "https://pub-4800303093b24737baaa55f4e436546d.r2.dev/pdfs/1739409677305_103-YouTube-Title-Ab-Tests-1 (1).pdf"
+        "https://drive.google.com/file/d/1JGkZkTcG_OC6XPCZQ0AWW5Nfa0chkP0a/view?usp=sharing"
     )
     data = loader.load()
 

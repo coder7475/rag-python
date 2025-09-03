@@ -1,3 +1,10 @@
+fastapi
+uvicorn[standard]
+
+# Environment and configuration
+pydantic
+python-dotenv
+
 pymongo
 
 sentence_transformers
