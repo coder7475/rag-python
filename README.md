@@ -152,10 +152,15 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 }
 ```
 
-Docs are auto-generated:
+## 📖 API Documentation
 
-- Swagger UI → [http://localhost:8000/docs](http://localhost:8000/docs)
-- ReDoc → [http://localhost:8000/redoc](http://localhost:8000/redoc)
+Interactive API documentation is available and auto-generated:
+
+- **Swagger UI:** [http://localhost:8000/docs](http://localhost:8000/docs)  
+  Explore and test all endpoints with an intuitive interface.
+
+- **ReDoc:** [http://localhost:8000/redoc](http://localhost:8000/redoc)  
+  Browse comprehensive, well-structured API reference documentation.
 
 ---
 
@@ -163,7 +168,7 @@ Docs are auto-generated:
 
 - Runs on **FastAPI + Uvicorn**.
 - Requires **MongoDB Atlas** with vector index support.
-- Uses **OpenAI/HuggingFace LLMs** for text generation.
+- Uses **HuggingFace LLMs** for text generation.
 - Extendable for custom embeddings and retrieval-augmented generation (RAG).
 
 ---
