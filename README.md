@@ -65,22 +65,29 @@ pip install -r requirements.txt
 Create a `.env` file in the root directory:
 
 ```env
-APP_NAME=YouTube Title Generator
-APP_VERSION=0.1.0
+# Application Settings
+APP_NAME="FastAPI App"
+APP_VERSION="0.1.0"
 DEBUG=True
-HOST=127.0.0.1
+
+# Server Settings
+HOST="127.0.0.1"
 PORT=8000
 
-DATABASE_URL=mongodb+srv://<user>:<password>@cluster.mongodb.net/db
-SECRET_KEY=your-secret-key
-API_PREFIX=/api
+# Database Settings
+ATLAS_CONNECTION_STRING="mongodb+srv://<username>:<password>@cluster0.xjslrno.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
-OPENAI_API_KEY=your-openai-key
+# API Settings
+API_PREFIX="/api/v1"
+
+# Secret keys
+HUGGING_FACE_ACCESS_TOKEN="***"
+
 ```
 
 ---
 
-## ▶️ Usage
+## Usage
 
 ### 1. Ingest Data
 

@@ -2,8 +2,7 @@
 from pymongo import MongoClient
 from get_embeddings import get_embedding
 from app.config import settings
-import pprint
-
+# import pprint
 
 def get_query_results(query):
     """Gets results from a vector search query."""

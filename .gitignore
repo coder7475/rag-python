@@ -76,3 +76,5 @@ yarn-error.log*
 dump/
 dump.gz
 mongodb/
+
+v-fast
